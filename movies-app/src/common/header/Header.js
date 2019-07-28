@@ -45,7 +45,9 @@ class Header extends Component {
             modalIsOpen: false,
             value: 0,
             usernameRequired: "dispNone",
-            username: ""
+            username: "",
+            passwordRequired: "dispNone",
+            password: ""
         }
     }
 
@@ -54,7 +56,9 @@ class Header extends Component {
             modalIsOpen: true,
             value: 0,
             usernameRequired: "dispNone",
-            username: ""
+            username: "",
+            passwordRequired: "dispNone",
+            password: ""
         });
     }
 
@@ -68,12 +72,16 @@ class Header extends Component {
 
     loginClickHandler = () => {
         this.state.username === "" ? this.setState({ usernameRequired: "dispBlock" }) : this.setState({ usernameRequired: "dispNone" });
+        this.state.password === "" ? this.setState({ passwordRequired: "dispBlock" }) : this.setState({ passwordRequired: "dispNone" });
     }
 
     inputUsernameChangeHandler = (e) => {
         this.setState({ username: e.target.value });
     }
 
+    inputPasswordChangeHandler = (e) => {
+        this.setState({ password: e.target.value });
+    }
 
 
 
@@ -114,7 +122,10 @@ class Header extends Component {
                             <br /><br />
                             <FormControl required>
                                 <InputLabel htmlFor="password">Password</InputLabel>
-                                <Input id="password" type="password" />
+                                <Input id="password" type="password" password={this.state.password} onChange={this.inputPasswordChangeHandler} />
+                                <FormHelperText className={this.state.passwordRequired}>
+                                    <span className="red">required</span>
+                                </FormHelperText> 
                             </FormControl>
                             <br /><br />
                             <Button variant="contained" color="primary" onClick={this.loginClickHandler}>LOGIN</Button>
