@@ -65,6 +65,7 @@ class Home extends Component {
     }
 
     componentWillMount() {
+        //Get Upcoming movies
         let data = null;
         let xhr = new XMLHttpRequest();
         let that = this;
@@ -80,6 +81,7 @@ class Home extends Component {
         xhr.setRequestHeader("Cache-Control", "no-cache");
         xhr.send(data);
 
+        //Get Released movies
         let dataReleased = null;
         let xhrReleased = new XMLHttpRequest();
         xhrReleased.addEventListener("readystatechange", function () {
@@ -116,7 +118,7 @@ class Home extends Component {
         const { classes } = this.props;
         return (
             <div>
-                <Header />
+                <Header baseUrl={this.props.baseUrl} />
                 <div className={classes.upcomingMoviesHeading}>
                     <span>Upcoming Movies</span>
                 </div>
