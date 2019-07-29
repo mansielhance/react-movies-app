@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import './Header.css';
 import Button from '@material-ui/core/Button';
 import logo from '../../assets/logo.svg';
@@ -11,6 +12,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
 import PropTypes from 'prop-types';
 import FormHelperText from '@material-ui/core/FormHelperText';
+import BookShow from '../../screens/bookshow/BookShow';
 
 const modalStyles = {
     content: {
@@ -131,7 +133,9 @@ class Header extends Component {
         this.setState({ contactno: e.target.value });
     }
 
-
+    bookShowHandler = (e) => {
+        ReactDOM.render(<BookShow />, document.getElementById('root'));
+    }
 
     render() {
         return (
@@ -143,6 +147,13 @@ class Header extends Component {
                             Login
                         </Button>
                     </div>
+                    {this.props.showBookShowButton === "true" ?
+                        <div className="bookshow-button">
+                            <Button variant="contained" color="primary" onClick={this.bookShowHandler}>
+                                Book Show
+                            </Button>
+                        </div>
+                        : ""}
                 </header>
                 
                 <Modal 
