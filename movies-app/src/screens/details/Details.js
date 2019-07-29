@@ -88,11 +88,11 @@ class Details extends Component {
         }
         return (
             <div className="details">
-                 <Header showBookShowButton="true" />
+                <Header showBookShowButton="true" />
                 <div className="back">
                     <Typography onClick={this.backToHomeHandler}>
                         &#60; Back to Home
-                        </Typography>
+                    </Typography>
                 </div>
                 <div className="flex-containerDetails">
                     <div className="leftDetails">
@@ -136,7 +136,7 @@ class Details extends Component {
 
                     </div>
                     <div className="rightDetails">
-                    <Typography>
+                        <Typography>
                             <span className="bold">Rate this movie: </span>
                         </Typography>
                         {this.state.starIcons.map(star => (
