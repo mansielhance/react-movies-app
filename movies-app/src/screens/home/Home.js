@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import './Home.css';
 import Header from '../../common/header/Header';
 import { withStyles } from '@material-ui/core/styles';
@@ -52,14 +52,48 @@ const styles = theme => ({
 });
 
 class Home extends Component {
-    
+
     constructor() {
         super();
         this.state = {
             movieName: "",
+            upcomingMovies: [],
+            releasedMovies: [],
             genres: [],
             artists: []
         }
+    }
+
+    componentWillMount() {
+        let data = null;
+        let xhr = new XMLHttpRequest();
+        let that = this;
+        xhr.addEventListener("readystatechange", function () {
+            if (this.readyState === 4) {
+                that.setState({
+                    upcomingMovies: JSON.parse(this.responseText).movies
+                });
+            }
+        });
+
+        xhr.open("GET", this.props.baseUrl + "movies?status=PUBLISHED");
+        xhr.setRequestHeader("Cache-Control", "no-cache");
+        xhr.send(data);
+
+        let dataReleased = null;
+        let xhrReleased = new XMLHttpRequest();
+        xhrReleased.addEventListener("readystatechange", function () {
+            if (this.readyState === 4) {
+                that.setState({
+                    releasedMovies: JSON.parse(this.responseText).movies
+                });
+            }
+        });
+
+        xhrReleased.open("GET", this.props.baseUrl + "movies?status=RELEASED");
+        xhrReleased.setRequestHeader("Cache-Control", "no-cache");
+        xhrReleased.send(dataReleased);
+
     }
 
     movieNameChangeHandler = event => {
@@ -88,8 +122,8 @@ class Home extends Component {
                 </div>
 
                 <GridList cols={5} className={classes.gridListUpcomingMovies} >
-                    {moviesData.map(movie => (
-                        <GridListTile key={movie.id}>
+                    {this.state.upcomingMovies.map(movie => (
+                        <GridListTile key={"upcoming" + movie.id}>
                             <img src={movie.poster_url} alt={movie.title} />
                             <img src={movie.poster_url} className="movie-poster" alt={movie.title} />
                             <GridListTileBar title={movie.title} />
@@ -97,12 +131,12 @@ class Home extends Component {
                     ))}
                 </GridList>
 
-                
+
                 <div className="flex-container">
                     <div className="left">
                         <GridList cellHeight={350} cols={4} className={classes.gridListMain}>
-                            {moviesData.map(movie => (
-                                 <GridListTile onClick={() => this.movieClickHandler(movie.id)} className="released-movie-grid-item" key={"grid" + movie.id}>
+                            {this.state.releasedMovies.map(movie => (
+                                <GridListTile onClick={() => this.movieClickHandler(movie.id)} className="released-movie-grid-item" key={"grid" + movie.id}>
                                     <img src={movie.poster_url} className="movie-poster" alt={movie.title} />
                                     <GridListTileBar
                                         title={movie.title}
@@ -114,7 +148,7 @@ class Home extends Component {
                     </div>
                     <div className="right">
 
-                    <Card>
+                        <Card>
                             <CardContent>
                                 <FormControl className={classes.formControl}>
                                     <Typography className={classes.title} color="textSecondary">
@@ -125,7 +159,7 @@ class Home extends Component {
                                     <InputLabel htmlFor="movieName">Movie Name</InputLabel>
                                     <Input id="movieName" onChange={this.movieNameChangeHandler} />
                                 </FormControl>
-                                
+
                                 <FormControl className={classes.formControl}>
                                     <InputLabel htmlFor="select-multiple-checkbox">Genres</InputLabel>
                                     <Select
@@ -135,7 +169,7 @@ class Home extends Component {
                                         value={this.state.genres}
                                         onChange={this.genreSelectHandler}
                                     >
-                    
+
                                         {genres.map(genre => (
                                             <MenuItem key={genre.id} value={genre.name}>
                                                 <Checkbox checked={this.state.genres.indexOf(genre.name) > -1} />
@@ -145,7 +179,7 @@ class Home extends Component {
                                     </Select>
                                 </FormControl>
 
-                               
+
                                 <FormControl className={classes.formControl}>
                                     <InputLabel htmlFor="select-multiple-checkbox">Artists</InputLabel>
                                     <Select
@@ -155,7 +189,7 @@ class Home extends Component {
                                         value={this.state.artists}
                                         onChange={this.artistSelectHandler}
                                     >
-                                      
+
                                         {artists.map(artist => (
                                             <MenuItem key={artist.id} value={artist.first_name + " " + artist.last_name}>
                                                 <Checkbox checked={this.state.artists.indexOf(artist.first_name + " " + artist.last_name) > -1} />
@@ -165,7 +199,7 @@ class Home extends Component {
                                     </Select>
                                 </FormControl>
 
-                                
+
                                 <FormControl className={classes.formControl}>
                                     <TextField
                                         id="releaseDateStart"
