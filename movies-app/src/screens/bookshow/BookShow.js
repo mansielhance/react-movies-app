@@ -22,7 +22,9 @@ class BookShow extends Component {
         super();
         this.state = {
             location: "",
-            language: ""
+            language: "",
+            showDate: "",
+            showTime: ""
         }
     }
 
