@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import './Header.css';
 import Button from '@material-ui/core/Button';
 import logo from '../../assets/logo.svg';
@@ -12,20 +11,20 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
 import PropTypes from 'prop-types';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import BookShow from '../../screens/bookshow/BookShow';
+import { Link } from 'react-router-dom';
 
 const modalStyles = {
     content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)'
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)'
     }
-  };
+};
 
-  const TabContainer = function (props) {
+const TabContainer = function (props) {
     return (
         <Typography component="div" style={{ padding: 0, textAlign: 'center' }}>
             {props.children}
@@ -39,8 +38,8 @@ TabContainer.propTypes = {
 
 
 class Header extends Component {
-    
-    
+
+
     constructor() {
         super();
         this.state = {
@@ -133,15 +132,11 @@ class Header extends Component {
         this.setState({ contactno: e.target.value });
     }
 
-    bookShowHandler = (e) => {
-        ReactDOM.render(<BookShow />, document.getElementById('root'));
-    }
-
     render() {
         return (
             <div>
                 <header className="app-header">
-                <img src={logo} className="app-logo" alt="Movies App Logo" />
+                    <img src={logo} className="app-logo" alt="Movies App Logo" />
                     <div className="login-button">
                         <Button variant="contained" color="default" onClick={this.openModalHandler}>
                             Login
@@ -149,31 +144,33 @@ class Header extends Component {
                     </div>
                     {this.props.showBookShowButton === "true" ?
                         <div className="bookshow-button">
-                            <Button variant="contained" color="primary" onClick={this.bookShowHandler}>
-                                Book Show
-                            </Button>
+                            <Link to={"/bookshow/" + this.props.id}>
+                                <Button variant="contained" color="primary">
+                                    Book Show
+                                </Button>
+                            </Link>
                         </div>
                         : ""}
                 </header>
-                
-                <Modal 
+
+                <Modal
                     ariaHideApp={false}
                     isOpen={this.state.modalIsOpen}
                     contentLabel="Login"
                     onRequestClose={this.closeModalHandler}
-                    style = {modalStyles}
+                    style={modalStyles}
                 >
                     <Tabs className="tabs" value={this.state.value} onChange={this.tabChangeHandler}>
                         <Tab label="Login" />
                         <Tab label="Register" />
                     </Tabs>
 
-                    
+
                     {this.state.value === 0 &&
                         <TabContainer>
                             <FormControl required>
                                 <InputLabel htmlFor="username">Username</InputLabel>
-                                 <Input id="username" type="text" username={this.state.username} onChange={this.inputUsernameChangeHandler} />
+                                <Input id="username" type="text" username={this.state.username} onChange={this.inputUsernameChangeHandler} />
                                 <FormHelperText className={this.state.usernameRequired}>
                                     <span className="red">required</span>
                                 </FormHelperText>
@@ -185,7 +182,7 @@ class Header extends Component {
                                 <Input id="loginPassword" type="password" loginpassword={this.state.loginPassword} onChange={this.inputLoginPasswordChangeHandler} />
                                 <FormHelperText className={this.state.loginPasswordRequired}>
                                     <span className="red">required</span>
-                                </FormHelperText> 
+                                </FormHelperText>
                             </FormControl>
                             <br /><br />
                             <Button variant="contained" color="primary" onClick={this.loginClickHandler}>LOGIN</Button>
@@ -198,8 +195,8 @@ class Header extends Component {
 
                             <FormControl required>
                                 <InputLabel htmlFor="firstname">First Name</InputLabel>
-                                 <Input id="firstname" type="text" firstname={this.state.firstname} onChange={this.inputFirstnameChangeHandler} />
-                                 <FormHelperText className={this.state.firstnameRequired}>
+                                <Input id="firstname" type="text" firstname={this.state.firstname} onChange={this.inputFirstnameChangeHandler} />
+                                <FormHelperText className={this.state.firstnameRequired}>
                                     <span className="red">required</span>
                                 </FormHelperText>
                             </FormControl>
@@ -207,8 +204,8 @@ class Header extends Component {
 
                             <FormControl required>
                                 <InputLabel htmlFor="lastname">Last Name</InputLabel>
-                                 <Input id="lastname" type="text" lastname={this.state.lastname} onChange={this.inputLastnameChangeHandler} />
-                                 <FormHelperText className={this.state.lastnameRequired}>
+                                <Input id="lastname" type="text" lastname={this.state.lastname} onChange={this.inputLastnameChangeHandler} />
+                                <FormHelperText className={this.state.lastnameRequired}>
                                     <span className="red">required</span>
                                 </FormHelperText>
                             </FormControl>
@@ -216,8 +213,8 @@ class Header extends Component {
 
                             <FormControl required>
                                 <InputLabel htmlFor="email">Email</InputLabel>
-                                 <Input id="email" type="email" email={this.state.email} onChange={this.inputEmailChangeHandler} />
-                                 <FormHelperText className={this.state.emailRequired}>
+                                <Input id="email" type="email" email={this.state.email} onChange={this.inputEmailChangeHandler} />
+                                <FormHelperText className={this.state.emailRequired}>
                                     <span className="red">required</span>
                                 </FormHelperText>
                             </FormControl>
@@ -228,14 +225,14 @@ class Header extends Component {
                                 <Input id="registerPassword" type="password" registerpassword={this.state.registerPassword} onChange={this.inputRegisterPasswordChangeHandler} />
                                 <FormHelperText className={this.state.registerPasswordRequired}>
                                     <span className="red">required</span>
-                                </FormHelperText> 
+                                </FormHelperText>
                             </FormControl>
                             <br /><br />
 
                             <FormControl required>
                                 <InputLabel htmlFor="contactno">Contact no.</InputLabel>
-                                 <Input id="contactno" type="text" contactno={this.state.contactno} onChange={this.inputContactnoChangeHandler} />
-                                 <FormHelperText className={this.state.contactnoRequired}>
+                                <Input id="contactno" type="text" contactno={this.state.contactno} onChange={this.inputContactnoChangeHandler} />
+                                <FormHelperText className={this.state.contactnoRequired}>
                                     <span className="red">required</span>
                                 </FormHelperText>
                             </FormControl>
